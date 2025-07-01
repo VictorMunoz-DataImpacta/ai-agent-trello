@@ -24,7 +24,7 @@ def handle_user_message(message: str) -> str:
     if message.lower().startswith('review trello') or 'duplicate' in message.lower():
         dups = find_duplicates(board_id, st.session_state.get('tasks', []))
         if dups:
-            return 'Duplicates:\n' + '\n'.join(f'- {d}' for d in dups)
+            return 'This are the Duplicates:\n' + '\n'.join(f'- {d}' for d in dups)
         return 'No duplicates found.'
     if message.lower().startswith('sync') or 'upload' in message.lower():
         sync_tasks(board_id, st.session_state.get('tasks', []))
