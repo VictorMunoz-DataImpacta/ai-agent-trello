@@ -1,7 +1,8 @@
 import json
+import re
 from typing import List, Dict
 
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage
 
@@ -18,10 +19,29 @@ def extract_tasks(transcript: str, openai_api_key: str) -> List[Dict[str, str]]:
     chat = ChatOpenAI(openai_api_key=openai_api_key, temperature=0)
     prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     message = HumanMessage(content=prompt.format())
-    response = chat([message, HumanMessage(content=transcript)])
+
+    print("🧪 Prompt:")
+    print(prompt.format())
+    print("🧪 Transcript:")
+    print(transcript)
+
+    response = chat.invoke([message, HumanMessage(content=transcript)])
+    #print("🧪 Raw response from OpenAI:")
+    #print(response.content)
+
+    raw_content = response.content.strip()
+
+    # Remove Markdown-style code block (```json ... ```)
+    if raw_content.startswith("```") and raw_content.endswith("```"):
+        raw_content = re.sub(r"^```[a-zA-Z]*\n", "", raw_content)
+        raw_content = re.sub(r"\n```$", "", raw_content)
+
     try:
-        tasks = json.loads(response.content)
-        assert isinstance(tasks, list)
-    except Exception:
+        tasks = json.loads(raw_content)
+        if not isinstance(tasks, list):
+            raise ValueError("Expected a list of tasks.")
+    except Exception as e:
+        print("⚠️ Failed to parse tasks:", e)
         tasks = []
+
     return tasks

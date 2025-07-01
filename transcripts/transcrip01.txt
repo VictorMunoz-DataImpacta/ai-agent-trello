@@ -1,0 +1,1 @@
+Hello, for the panam project I need to fix the button to update the charts, and also i need to create a new window to add explore the data. For the current charts, can you change the color of the lines and so on
