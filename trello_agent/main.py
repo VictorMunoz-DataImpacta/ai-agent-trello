@@ -34,3 +34,7 @@ if __name__ == '__main__':
 
     tasks = process_transcript(transcript)
     print(tasks)
+
+    get_cards
+
+

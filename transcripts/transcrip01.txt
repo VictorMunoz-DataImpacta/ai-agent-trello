@@ -1,1 +1,1 @@
-Hello, for the panam project I need to fix the button to update the charts, and also i need to create a new window to add explore the data. For the current charts, can you change the color of the lines and so on
+Hello, for the panam project I need to fix the button to update the charts, and also i need to create a new window to add explore the data. For the current charts, can you change the color of the lines and so onWe need to plan a Meeting with the Okavango team, we also need to plan the goals for the next quarter
