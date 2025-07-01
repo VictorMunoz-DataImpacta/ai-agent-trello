@@ -34,3 +34,17 @@ def update_card(card_id: str, name: str, desc: str) -> Dict[str, Any]:
     r = requests.put(url, params=params)
     r.raise_for_status()
     return r.json()
+
+
+def find_duplicates(board_id: str, tasks: List[Dict[str, str]]) -> List[str]:
+    """Return task descriptions that already exist as card names."""
+    existing = {card["name"] for card in get_cards(board_id)}
+    return [t["description"] for t in tasks if t["description"] in existing]
+
+
+def sync_tasks(board_id: str, tasks: List[Dict[str, str]]) -> None:
+    """Create cards for tasks that don't already exist."""
+    existing = {card["name"] for card in get_cards(board_id)}
+    for task in tasks:
+        if task["description"] not in existing:
+            create_card(board_id, task["description"], task.get("desc", ""))
